@@ -83,8 +83,12 @@ class AuthNotifier extends StateNotifier<AuthState> {
       state = AuthState(user: user, isLoggedIn: true);
       return true;
     } on DioException catch (e) {
-      final msg =
-          e.response?.data?['detail'] ?? 'Login failed. Please try again.';
+      final data = e.response?.data;
+      final detail = data is Map ? data['detail'] : null;
+      final msg = detail?.toString() ??
+          e.response?.statusMessage ??
+          e.message ??
+          'Login failed. Please try again.';
       state = state.copyWith(isLoading: false, error: msg);
       return false;
     } catch (e) {

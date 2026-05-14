@@ -25,8 +25,7 @@ class _SplashScreenState extends State<SplashScreen> {
     final hasToken = await ApiClient.hasToken();
     if (!mounted) return;
     if (hasToken) {
-      final role = await ApiClient.getRole();
-      context.go(role == 'tho' ? '/tho' : '/asha');
+      context.go('/asha');
     } else {
       context.go('/role');
     }

@@ -1,5 +1,5 @@
 class ApiEndpoints {
-  static const String baseUrl = 'https://alert-plus-full.onrender.com';
+  static const String baseUrl = 'https://alert-backend-wdln.onrender.com';
 
   // Auth
   static const String login = '/api/v1/auth/login';
@@ -21,10 +21,10 @@ class ApiEndpoints {
   static String markReviewed(String id) => '/api/v1/triage_records/$id/reviewed';
 
   // Outbreaks
-  static const String outbreaks = '/api/v1/outbreaks';
+  static const String outbreaks = '/api/v1/outbreaks/';
 
   // Reviews
-  static const String reviews = '/api/v1/reviews';
+  static const String reviews = '/api/v1/reviews/';
 
   // Patient progress timeline
   static const String patientProgress = '/api/v1/patient_progress/';

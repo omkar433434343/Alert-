@@ -21,13 +21,26 @@ class ApiClient {
 
     _dio.interceptors.add(InterceptorsWrapper(
       onRequest: (options, handler) async {
+        // Keep network failures visible during field/demo debugging.
+        // ignore: avoid_print
+        print('API ${options.method} ${options.uri}');
         final token = await _storage.read(key: 'jwt_token');
         if (token != null) {
           options.headers['Authorization'] = 'Bearer $token';
         }
         handler.next(options);
       },
+      onResponse: (response, handler) {
+        // ignore: avoid_print
+        print('API ${response.statusCode} ${response.requestOptions.uri}');
+        handler.next(response);
+      },
       onError: (error, handler) async {
+        // ignore: avoid_print
+        print(
+          'API ERROR ${error.response?.statusCode ?? error.type} '
+          '${error.requestOptions.uri}: ${error.message}',
+        );
         if (error.response?.statusCode == 401) {
           // Token expired — clear storage; router will redirect to login
           await _storage.deleteAll();

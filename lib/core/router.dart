@@ -12,14 +12,8 @@ import '../features/asha/patients/patient_detail_screen.dart';
 import '../features/asha/patients/patient_chat_screen.dart';
 import '../features/asha/triage/triage_form_screen.dart';
 import '../features/asha/triage/voice_triage_screen.dart';
-import '../features/tho/dashboard/tho_dashboard.dart';
-import '../features/tho/triage_review/triage_review_screen.dart';
-import '../features/tho/outbreaks/outbreak_map_screen.dart';
-import '../features/tho/patients/tho_patient_list_screen.dart';
-import '../features/tho/patients/tho_patient_detail_screen.dart';
 import '../features/profile/profile_screen.dart';
 import '../features/asha/asha_shell.dart';
-import '../features/tho/tho_shell.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
   final auth = ref.watch(authProvider);
@@ -37,8 +31,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       if (loggedIn &&
           (state.matchedLocation == '/role' ||
               state.matchedLocation.startsWith('/login'))) {
-        final role = auth.user?.role ?? 'asha';
-        return role == 'tho' ? '/tho' : '/asha';
+        return '/asha';
       }
       return null;
     },
@@ -47,7 +40,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(path: '/role', builder: (_, __) => const RoleSelectScreen()),
       GoRoute(
         path: '/login/:role',
-        builder: (_, state) => LoginScreen(role: state.pathParameters['role']!),
+        builder: (_, __) => const LoginScreen(role: 'asha'),
       ),
 
       // ASHA Shell Route
@@ -107,46 +100,6 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(path: '/asha/profile', builder: (_, __) => const ProfileScreen()),
 
-      // THO Shell Route
-      StatefulShellRoute.indexedStack(
-        builder: (context, state, navigationShell) =>
-            ThoShell(navigationShell: navigationShell),
-        branches: [
-          StatefulShellBranch(
-            routes: [
-              GoRoute(path: '/tho', builder: (_, __) => const ThoDashboard()),
-            ],
-          ),
-          StatefulShellBranch(
-            routes: [
-              GoRoute(
-                path: '/tho/patients',
-                builder: (_, __) => const ThoPatientListScreen(),
-              ),
-            ],
-          ),
-          StatefulShellBranch(
-            routes: [
-              GoRoute(
-                path: '/tho/outbreaks',
-                builder: (_, __) => const OutbreakMapScreen(),
-              ),
-            ],
-          ),
-        ],
-      ),
-
-      // Other THO routes
-      GoRoute(path: '/tho/profile', builder: (_, __) => const ProfileScreen()),
-      GoRoute(
-        path: '/tho/patients/detail',
-        builder: (_, state) =>
-            ThoPatientDetailScreen(patient: state.extra as PatientModel),
-      ),
-      GoRoute(
-        path: '/tho/triage-review',
-        builder: (_, __) => const TriageReviewScreen(),
-      ),
     ],
   );
 });

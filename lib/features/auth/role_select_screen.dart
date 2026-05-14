@@ -38,7 +38,7 @@ class RoleSelectScreen extends ConsumerWidget {
                 const SizedBox(height: 12),
 
                 Text(
-                  context.tr('Choose your portal to continue'),
+                  context.tr('Continue as an ASHA worker'),
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                     color: AppColors.textSecondary,
                   ),
@@ -53,17 +53,6 @@ class RoleSelectScreen extends ConsumerWidget {
                   gradient: AppTheme.ashaGradient,
                   delay: 300,
                   onTap: () => context.go('/login/asha'),
-                ),
-
-                const SizedBox(height: 20),
-
-                _RoleCard(
-                  title: context.tr('THO Officer'),
-                  subtitle: 'Monitor district health data, review records, track outbreaks',
-                  icon: Icons.local_hospital_rounded,
-                  gradient: AppTheme.thoGradient,
-                  delay: 450,
-                  onTap: () => context.go('/login/tho'),
                 ),
 
                 const Spacer(),
